@@ -1,8 +1,19 @@
 import { NextApiRequest, NextApiResponse } from "next"
+import Cors from 'cors';
 
 import json from '../../../config/server.json';
+import corsMiddleware from '../../../config/corsMiddleware';
 
-export default (req: NextApiRequest, res: NextApiResponse) => {
+const cors = corsMiddleware(
+  Cors({
+    methods: ['GET', 'OPTIONS'],
+  })
+);
+
+export default async (req: NextApiRequest, res: NextApiResponse) => {
+
+  await cors(req, res);
+  
   let { plants } = json;
   const page = req.query._page;
   const limit = req.query._limit || 10;
