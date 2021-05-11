@@ -1,8 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import Cors from 'cors';
 
-import json from '../../../config/server.json';
+import server from '../../../config/server.json';
 import corsMiddleware from '../../../config/corsMiddleware';
+
+const json = {...server};
 
 const cors = corsMiddleware(
   Cors({
