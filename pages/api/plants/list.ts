@@ -15,8 +15,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   await cors(req, res);
   
   let { plants } = json;
-  const page = req.query._page;
-  const limit = req.query._limit || 10;
+  const {_page, _limit} = req.query;
+
+  const page = (_page !== undefined) ? Number(_page) : 1;
+  const limit = (_limit !== undefined) ? Number(_limit) : 10;
 
   plants.sort((a, b) => {
     if (a.name > b.name) {
@@ -29,8 +31,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   });
 
   if (page) {
+    const end = (limit < plants.length) ? limit : plants.length;
     const ini = (Number(page) - 1) * Number(limit);
-    plants = plants.splice(ini, Number(limit));
+    plants = plants.splice(ini, end);
   }
 
   res.status(200).json(plants);
