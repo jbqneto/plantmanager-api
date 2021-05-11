@@ -16,7 +16,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   await cors(req, res);
   
-  let { plants } = json;
+  let plants = {...json.plants};
   const {_page, _limit} = req.query;
 
   const page = (_page !== undefined) ? Number(_page) : 1;
