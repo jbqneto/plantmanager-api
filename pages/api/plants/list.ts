@@ -32,11 +32,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
   });
 
+  let response;
+
   if (page) {
     const end = (limit < plants.length) ? limit : plants.length;
     const ini = (Number(page) - 1) * Number(limit);
-    plants = plants.splice(ini, end);
+    response = plants.splice(ini, end);
+  } else {
+    response = {...plants};
   }
 
-  res.status(200).json(plants);
+  res.status(200).json(response);
 }
